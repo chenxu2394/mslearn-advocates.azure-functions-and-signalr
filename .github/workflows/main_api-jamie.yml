@@ -10,8 +10,9 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./start/server"
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
   NODE_VERSION: "18.x" # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  PACKAGE_PATH: "./start/server"
 
 jobs:
   build:
