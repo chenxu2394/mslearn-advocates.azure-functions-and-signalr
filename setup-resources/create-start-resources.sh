@@ -31,6 +31,8 @@ printf "User name: $USER_NAME\n"
 
 # Get the default subscription if not provided as a parameter
 SUBSCRIPTION_NAME=$1
+# Set default subscription
+az configure --defaults subscription="$SUBSCRIPTION_NAME"
 printf "Using subscription: ""$SUBSCRIPTION_NAME""\n"
 
 # Set the resource group name if not provided as a parameter
@@ -73,9 +75,21 @@ az cosmosdb create  \
   --name $COMSOSDB_NAME \
   --resource-group $RESOURCE_GROUP_NAME
 
+printf "Creating CosmosDB db\n"
+# Create stocksdb database
+az cosmosdb sql database create \
+    --account-name $COMSOSDB_NAME \
+    --name stocksdb
+
+printf "Creating CosmosDB container\n"
+# Create stocks container
+az cosmosdb sql container create \
+    --account-name $COMSOSDB_NAME \
+    --database-name stocksdb \
+    --name stocks \
+    --partition-key-path /symbol
+
 printf "Get storage connection string\n"
-
-
 
 STORAGE_CONNECTION_STRING=$(az storage account show-connection-string \
 --name $(az storage account list \
